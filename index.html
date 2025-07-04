@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片处理工具 - 免费在线图片编辑</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-image"></i> 图片处理工具</h1>
+                <p>免费在线图片编辑 - 调整大小、裁剪、压缩、格式转换</p>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-content">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3>拖拽图片到此处或点击上传</h3>
+                        <p>支持 JPG、PNG、GIF、WEBP 格式</p>
+                        <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                        <button class="upload-btn" onclick="document.getElementById('imageInput').click()">
+                            <i class="fas fa-plus"></i> 选择图片
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="tools-section" id="toolsSection" style="display: none;">
+                <div class="tools-container">
+                    <div class="tools-sidebar">
+                        <div class="tool-group">
+                            <h4><i class="fas fa-expand-arrows-alt"></i> 调整大小</h4>
+                            <div class="tool-controls">
+                                <div class="input-group">
+                                    <label>宽度 (px)</label>
+                                    <input type="number" id="widthInput" placeholder="自动">
+                                </div>
+                                <div class="input-group">
+                                    <label>高度 (px)</label>
+                                    <input type="number" id="heightInput" placeholder="自动">
+                                </div>
+                                <div class="checkbox-group">
+                                    <label>
+                                        <input type="checkbox" id="maintainAspectRatio" checked>
+                                        保持宽高比
+                                    </label>
+                                </div>
+                                <div class="preset-sizes">
+                                    <button class="preset-btn" data-width="1920" data-height="1080">1920x1080</button>
+                                    <button class="preset-btn" data-width="1280" data-height="720">1280x720</button>
+                                    <button class="preset-btn" data-width="800" data-height="600">800x600</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tool-group">
+                            <h4><i class="fas fa-crop"></i> 裁剪</h4>
+                            <div class="tool-controls">
+                                <div class="crop-presets">
+                                    <button class="crop-btn" data-ratio="1:1">1:1</button>
+                                    <button class="crop-btn" data-ratio="16:9">16:9</button>
+                                    <button class="crop-btn" data-ratio="4:3">4:3</button>
+                                    <button class="crop-btn" data-ratio="free">自由</button>
+                                </div>
+                                <button class="action-btn" id="cropBtn">开始裁剪</button>
+                            </div>
+                        </div>
+
+                        <div class="tool-group">
+                            <h4><i class="fas fa-compress"></i> 压缩</h4>
+                            <div class="tool-controls">
+                                <div class="input-group">
+                                    <label>质量 (1-100)</label>
+                                    <input type="range" id="qualitySlider" min="1" max="100" value="85">
+                                    <span id="qualityValue">85</span>
+                                </div>
+                                <div class="file-size-info">
+                                    <p>原始大小: <span id="originalSize">-</span></p>
+                                    <p>压缩后: <span id="compressedSize">-</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tool-group">
+                            <h4><i class="fas fa-exchange-alt"></i> 格式转换</h4>
+                            <div class="tool-controls">
+                                <div class="format-options">
+                                    <label>
+                                        <input type="radio" name="format" value="jpeg" checked>
+                                        JPEG
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="format" value="png">
+                                        PNG
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="format" value="webp">
+                                        WebP
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="action-btn primary" id="processBtn">
+                                <i class="fas fa-magic"></i> 应用修改
+                            </button>
+                            <button class="action-btn" id="downloadBtn">
+                                <i class="fas fa-download"></i> 下载图片
+                            </button>
+                            <button class="action-btn secondary" id="resetBtn">
+                                <i class="fas fa-undo"></i> 重置
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="preview-area">
+                        <div class="preview-container">
+                            <div class="preview-header">
+                                <h4>预览</h4>
+                                <div class="preview-info">
+                                    <span id="imageInfo">-</span>
+                                </div>
+                            </div>
+                            <div class="preview-content">
+                                <canvas id="previewCanvas"></canvas>
+                                <div id="cropOverlay" class="crop-overlay" style="display: none;">
+                                    <div class="crop-box">
+                                        <div class="crop-handle top-left"></div>
+                                        <div class="crop-handle top-right"></div>
+                                        <div class="crop-handle bottom-left"></div>
+                                        <div class="crop-handle bottom-right"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="features-section">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                        <h3>调整大小</h3>
+                        <p>轻松调整图片尺寸，支持自定义宽高或使用预设尺寸</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-crop"></i>
+                        <h3>智能裁剪</h3>
+                        <p>支持多种裁剪比例，或自由裁剪任意区域</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-compress"></i>
+                        <h3>图片压缩</h3>
+                        <p>减小文件大小，保持图片质量，优化网络传输</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-exchange-alt"></i>
+                        <h3>格式转换</h3>
+                        <p>支持JPEG、PNG、WebP等多种格式互转</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2024 图片处理工具. 所有处理都在浏览器本地完成，保护您的隐私.</p>
+            </div>
+        </footer>
+    </div>
+
+    <div id="loadingModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="loading-spinner"></div>
+            <p>处理中...</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
