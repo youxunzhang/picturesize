@@ -731,10 +731,114 @@ function setupEnhancedEventListeners() {
     });
 }
 
+// 收藏功能
+function setupBookmarkFeature() {
+    const bookmarkBtn = document.getElementById('bookmarkBtn');
+    if (!bookmarkBtn) return;
+    
+    bookmarkBtn.addEventListener('click', function() {
+        if (bookmarkBtn.classList.contains('bookmarked')) {
+            // 取消收藏
+            bookmarkBtn.classList.remove('bookmarked');
+            showMessage('已取消收藏', 'success');
+        } else {
+            // 添加收藏
+            bookmarkBtn.classList.add('bookmarked');
+            showMessage('已添加到收藏夹', 'success');
+        }
+    });
+}
+
+// 分享功能
+function setupShareFeature() {
+    const shareBtn = document.getElementById('shareBtn');
+    const shareDropdown = document.getElementById('shareDropdown');
+    if (!shareBtn || !shareDropdown) return;
+    
+    shareBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        shareDropdown.classList.toggle('show');
+    });
+    
+    // 点击外部关闭下拉菜单
+    document.addEventListener('click', function() {
+        shareDropdown.classList.remove('show');
+    });
+    
+    // 分享链接处理
+    const shareLinks = document.querySelectorAll('.share-link');
+    shareLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const platform = this.dataset.platform;
+            shareToPlatform(platform);
+            shareDropdown.classList.remove('show');
+        });
+    });
+}
+
+function shareToPlatform(platform) {
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(document.title);
+    const description = encodeURIComponent('免费在线图片处理工具，支持调整大小、裁剪、压缩、格式转换');
+    
+    let shareUrl = '';
+    
+    switch(platform) {
+        case 'facebook':
+            shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+            break;
+        case 'twitter':
+            shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
+            break;
+        case 'linkedin':
+            shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+            break;
+        case 'pinterest':
+            shareUrl = `https://pinterest.com/pin/create/button/?url=${url}&description=${description}`;
+            break;
+        case 'reddit':
+            shareUrl = `https://reddit.com/submit?url=${url}&title=${title}`;
+            break;
+        case 'whatsapp':
+            shareUrl = `https://wa.me/?text=${title}%20${url}`;
+            break;
+        case 'telegram':
+            shareUrl = `https://t.me/share/url?url=${url}&text=${title}`;
+            break;
+        case 'copy':
+            copyToClipboard(window.location.href);
+            return;
+    }
+    
+    if (shareUrl) {
+        window.open(shareUrl, '_blank', 'width=600,height=400');
+    }
+}
+
+function copyToClipboard(text) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+            showMessage('链接已复制到剪贴板', 'success');
+        });
+    } else {
+        // 备用方法
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        showMessage('链接已复制到剪贴板', 'success');
+    }
+}
+
 // 初始化增强功能
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
     setupEnhancedEventListeners();
+    setupBookmarkFeature();
+    setupShareFeature();
     
     // 添加版本信息
     console.log('图片处理工具 v1.0.0 - 已加载');

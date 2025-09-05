@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- 主页 -->
+  <url>
+    <loc>https://yinhangka.online/picturesize/</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- 图片调整大小页面 -->
+  <url>
+    <loc>https://yinhangka.online/picturesize/#resize</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- 图片裁剪页面 -->
+  <url>
+    <loc>https://yinhangka.online/picturesize/#crop</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- 图片压缩页面 -->
+  <url>
+    <loc>https://yinhangka.online/picturesize/#compress</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- 格式转换页面 -->
+  <url>
+    <loc>https://yinhangka.online/picturesize/#convert</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- 小游戏页面 -->
+  <url>
+    <loc>https://yinhangka.online/picturesize/game.html</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- 网站地图页面 -->
+  <url>
+    <loc>https://yinhangka.online/picturesize/sitemap.html</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+</urlset>
