@@ -6,6 +6,8 @@ let ctx = null;
 let currentFile = null;
 let cropData = null;
 let isCropping = false;
+let imageHistory = [];
+let historyIndex = -1;
 
 // 初始化
 document.addEventListener('DOMContentLoaded', function() {
@@ -58,7 +60,10 @@ function setupEventListeners() {
     });
     
     const cropBtn = document.getElementById('cropBtn');
+    const smartCropBtn = document.getElementById('smartCropBtn');
+    
     cropBtn.addEventListener('click', toggleCrop);
+    smartCropBtn.addEventListener('click', performSmartCrop);
     
     // 质量滑块
     const qualitySlider = document.getElementById('qualitySlider');
@@ -124,6 +129,10 @@ function loadImage(file) {
         img.onload = function() {
             originalImage = img;
             processedImage = img;
+            
+            // 重置历史记录
+            imageHistory = [img.src];
+            historyIndex = 0;
             
             // 显示工具面板
             document.getElementById('toolsSection').style.display = 'block';
@@ -233,6 +242,56 @@ function handleCropRatio(event) {
     
     // 设置裁剪比例
     cropData = { ratio: ratio };
+    
+    // 如果正在裁剪模式，更新裁剪框
+    if (isCropping) {
+        updateCropBoxRatio();
+    }
+}
+
+function updateCropBoxRatio() {
+    if (!cropData || !cropData.ratio || cropData.ratio === 'free') return;
+    
+    const cropBox = document.querySelector('.crop-box');
+    if (!cropBox) return;
+    
+    const [ratioW, ratioH] = cropData.ratio.split(':').map(Number);
+    const ratio = ratioW / ratioH;
+    
+    const currentWidth = cropBox.offsetWidth;
+    const currentHeight = cropBox.offsetHeight;
+    const currentRatio = currentWidth / currentHeight;
+    
+    let newWidth, newHeight;
+    
+    if (currentRatio > ratio) {
+        // 当前太宽，以高度为准
+        newHeight = currentHeight;
+        newWidth = newHeight * ratio;
+    } else {
+        // 当前太高，以宽度为准
+        newWidth = currentWidth;
+        newHeight = newWidth / ratio;
+    }
+    
+    // 确保不超出画布边界
+    const maxWidth = canvas.width - parseInt(cropBox.style.left);
+    const maxHeight = canvas.height - parseInt(cropBox.style.top);
+    
+    if (newWidth > maxWidth) {
+        newWidth = maxWidth;
+        newHeight = newWidth / ratio;
+    }
+    
+    if (newHeight > maxHeight) {
+        newHeight = maxHeight;
+        newWidth = newHeight * ratio;
+    }
+    
+    cropBox.style.width = newWidth + 'px';
+    cropBox.style.height = newHeight + 'px';
+    
+    updateCropInfo();
 }
 
 function toggleCrop() {
@@ -240,17 +299,23 @@ function toggleCrop() {
     
     isCropping = !isCropping;
     const cropBtn = document.getElementById('cropBtn');
+    const smartCropBtn = document.getElementById('smartCropBtn');
     const cropOverlay = document.getElementById('cropOverlay');
+    const cropInfo = document.getElementById('cropInfo');
     
     if (isCropping) {
         cropBtn.textContent = '完成裁剪';
         cropBtn.classList.add('active');
+        if (smartCropBtn) smartCropBtn.style.display = 'block';
         cropOverlay.style.display = 'block';
+        if (cropInfo) cropInfo.style.display = 'block';
         setupCropBox();
     } else {
         cropBtn.textContent = '开始裁剪';
         cropBtn.classList.remove('active');
+        if (smartCropBtn) smartCropBtn.style.display = 'none';
         cropOverlay.style.display = 'none';
+        if (cropInfo) cropInfo.style.display = 'none';
         applyCrop();
     }
 }
@@ -260,8 +325,20 @@ function setupCropBox() {
     const canvasRect = canvas.getBoundingClientRect();
     
     // 设置初始裁剪框
-    const boxWidth = Math.min(200, canvas.width * 0.8);
-    const boxHeight = Math.min(200, canvas.height * 0.8);
+    let boxWidth = Math.min(200, canvas.width * 0.8);
+    let boxHeight = Math.min(200, canvas.height * 0.8);
+    
+    // 如果有裁剪比例约束，应用比例
+    if (cropData && cropData.ratio && cropData.ratio !== 'free') {
+        const [ratioW, ratioH] = cropData.ratio.split(':').map(Number);
+        const ratio = ratioW / ratioH;
+        
+        if (boxWidth / boxHeight > ratio) {
+            boxWidth = boxHeight * ratio;
+        } else {
+            boxHeight = boxWidth / ratio;
+        }
+    }
     
     cropBox.style.width = boxWidth + 'px';
     cropBox.style.height = boxHeight + 'px';
@@ -270,25 +347,52 @@ function setupCropBox() {
     
     // 添加拖拽事件
     makeCropBoxDraggable();
+    
+    // 更新裁剪信息
+    updateCropInfo();
 }
 
 function makeCropBoxDraggable() {
     const cropBox = document.querySelector('.crop-box');
+    const handles = cropBox.querySelectorAll('.crop-handle');
     let isDragging = false;
-    let startX, startY, startLeft, startTop;
+    let isResizing = false;
+    let startX, startY, startLeft, startTop, startWidth, startHeight;
+    let resizeHandle = null;
     
+    // 拖拽移动
     cropBox.addEventListener('mousedown', function(e) {
+        if (e.target.classList.contains('crop-handle')) return;
+        
         isDragging = true;
         startX = e.clientX;
         startY = e.clientY;
         startLeft = parseInt(cropBox.style.left);
         startTop = parseInt(cropBox.style.top);
         
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', handleMouseUp);
+        document.addEventListener('mousemove', handleMove);
+        document.addEventListener('mouseup', handleUp);
     });
     
-    function handleMouseMove(e) {
+    // 调整大小
+    handles.forEach(handle => {
+        handle.addEventListener('mousedown', function(e) {
+            e.stopPropagation();
+            isResizing = true;
+            resizeHandle = this.classList[1]; // 获取方向类名
+            startX = e.clientX;
+            startY = e.clientY;
+            startLeft = parseInt(cropBox.style.left);
+            startTop = parseInt(cropBox.style.top);
+            startWidth = cropBox.offsetWidth;
+            startHeight = cropBox.offsetHeight;
+            
+            document.addEventListener('mousemove', handleResize);
+            document.addEventListener('mouseup', handleUp);
+        });
+    });
+    
+    function handleMove(e) {
         if (!isDragging) return;
         
         const dx = e.clientX - startX;
@@ -299,12 +403,124 @@ function makeCropBoxDraggable() {
         
         cropBox.style.left = newLeft + 'px';
         cropBox.style.top = newTop + 'px';
+        
+        updateCropInfo();
     }
     
-    function handleMouseUp() {
+    function handleResize(e) {
+        if (!isResizing) return;
+        
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        
+        let newLeft = startLeft;
+        let newTop = startTop;
+        let newWidth = startWidth;
+        let newHeight = startHeight;
+        
+        // 根据拖拽的手柄调整大小
+        switch(resizeHandle) {
+            case 'top-left':
+                newLeft = Math.max(0, startLeft + dx);
+                newTop = Math.max(0, startTop + dy);
+                newWidth = Math.max(50, startWidth - dx);
+                newHeight = Math.max(50, startHeight - dy);
+                break;
+            case 'top-right':
+                newTop = Math.max(0, startTop + dy);
+                newWidth = Math.max(50, startWidth + dx);
+                newHeight = Math.max(50, startHeight - dy);
+                break;
+            case 'bottom-left':
+                newLeft = Math.max(0, startLeft + dx);
+                newWidth = Math.max(50, startWidth - dx);
+                newHeight = Math.max(50, startHeight + dy);
+                break;
+            case 'bottom-right':
+                newWidth = Math.max(50, startWidth + dx);
+                newHeight = Math.max(50, startHeight + dy);
+                break;
+        }
+        
+        // 应用裁剪比例约束
+        if (cropData && cropData.ratio && cropData.ratio !== 'free') {
+            const [ratioW, ratioH] = cropData.ratio.split(':').map(Number);
+            const ratio = ratioW / ratioH;
+            
+            if (newWidth / newHeight > ratio) {
+                newWidth = newHeight * ratio;
+            } else {
+                newHeight = newWidth / ratio;
+            }
+        }
+        
+        // 边界检查
+        newLeft = Math.max(0, Math.min(newLeft, canvas.width - newWidth));
+        newTop = Math.max(0, Math.min(newTop, canvas.height - newHeight));
+        newWidth = Math.min(newWidth, canvas.width - newLeft);
+        newHeight = Math.min(newHeight, canvas.height - newTop);
+        
+        cropBox.style.left = newLeft + 'px';
+        cropBox.style.top = newTop + 'px';
+        cropBox.style.width = newWidth + 'px';
+        cropBox.style.height = newHeight + 'px';
+        
+        updateCropInfo();
+    }
+    
+    function handleUp() {
         isDragging = false;
-        document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
+        isResizing = false;
+        resizeHandle = null;
+        document.removeEventListener('mousemove', handleMove);
+        document.removeEventListener('mousemove', handleResize);
+        document.removeEventListener('mouseup', handleUp);
+    }
+    
+    function updateCropInfo() {
+        const width = Math.round(cropBox.offsetWidth);
+        const height = Math.round(cropBox.offsetHeight);
+        const left = Math.round(parseInt(cropBox.style.left));
+        const top = Math.round(parseInt(cropBox.style.top));
+        
+        // 显示裁剪信息
+        const cropInfo = document.getElementById('cropInfo');
+        const cropSize = document.getElementById('cropSize');
+        if (cropInfo && cropSize) {
+            cropSize.textContent = `${width} × ${height}`;
+            cropInfo.style.display = 'block';
+        }
+        
+        // 更新裁剪预览
+        updateCropPreview();
+    }
+    
+    function updateCropPreview() {
+        if (!originalImage) return;
+        
+        const cropBox = document.querySelector('.crop-box');
+        const scaleX = originalImage.width / canvas.width;
+        const scaleY = originalImage.height / canvas.height;
+        
+        const x = parseInt(cropBox.style.left) * scaleX;
+        const y = parseInt(cropBox.style.top) * scaleY;
+        const width = cropBox.offsetWidth * scaleX;
+        const height = cropBox.offsetHeight * scaleY;
+        
+        // 创建预览画布
+        const previewCanvas = document.createElement('canvas');
+        const previewCtx = previewCanvas.getContext('2d');
+        
+        previewCanvas.width = Math.min(100, width);
+        previewCanvas.height = Math.min(100, height);
+        
+        // 绘制裁剪预览
+        previewCtx.drawImage(originalImage, x, y, width, height, 0, 0, previewCanvas.width, previewCanvas.height);
+        
+        // 将预览设置为裁剪框的背景
+        cropBox.style.backgroundImage = `url(${previewCanvas.toDataURL()})`;
+        cropBox.style.backgroundSize = 'cover';
+        cropBox.style.backgroundPosition = 'center';
     }
 }
 
@@ -333,9 +549,190 @@ function applyCrop() {
     const croppedImage = new Image();
     croppedImage.onload = function() {
         processedImage = croppedImage;
+        addToHistory(croppedImage.src);
         updateCanvas();
+        updateImageInfo();
+        showMessage('裁剪完成！', 'success');
     };
     croppedImage.src = tempCanvas.toDataURL();
+}
+
+// 智能裁剪功能
+function performSmartCrop() {
+    if (!originalImage) return;
+    
+    showLoading();
+    
+    // 简单的智能裁剪算法：选择图片中心区域
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    canvas.width = originalImage.width;
+    canvas.height = originalImage.height;
+    ctx.drawImage(originalImage, 0, 0);
+    
+    // 获取图片数据
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+    
+    // 计算图片的"重要性"区域（基于边缘检测的简化版本）
+    const importance = calculateImageImportance(data, canvas.width, canvas.height);
+    
+    // 根据裁剪比例选择最佳区域
+    const bestCrop = findBestCropArea(importance, canvas.width, canvas.height);
+    
+    // 应用智能裁剪
+    applySmartCrop(bestCrop);
+    
+    hideLoading();
+}
+
+function calculateImageImportance(data, width, height) {
+    const importance = new Array(width * height).fill(0);
+    
+    // 简化的边缘检测算法
+    for (let y = 1; y < height - 1; y++) {
+        for (let x = 1; x < width - 1; x++) {
+            const idx = (y * width + x) * 4;
+            
+            // 计算梯度
+            const gx = Math.abs(
+                data[idx + 4] - data[idx - 4] + // R
+                data[idx + 5] - data[idx - 3] + // G
+                data[idx + 6] - data[idx - 2]   // B
+            );
+            
+            const gy = Math.abs(
+                data[(y + 1) * width * 4 + x * 4] - data[(y - 1) * width * 4 + x * 4] + // R
+                data[(y + 1) * width * 4 + x * 4 + 1] - data[(y - 1) * width * 4 + x * 4 + 1] + // G
+                data[(y + 1) * width * 4 + x * 4 + 2] - data[(y - 1) * width * 4 + x * 4 + 2]   // B
+            );
+            
+            importance[y * width + x] = Math.sqrt(gx * gx + gy * gy);
+        }
+    }
+    
+    return importance;
+}
+
+function findBestCropArea(importance, width, height) {
+    // 获取裁剪比例
+    let targetRatio = 1;
+    if (cropData && cropData.ratio && cropData.ratio !== 'free') {
+        const [ratioW, ratioH] = cropData.ratio.split(':').map(Number);
+        targetRatio = ratioW / ratioH;
+    }
+    
+    // 计算裁剪区域大小
+    let cropWidth, cropHeight;
+    if (width / height > targetRatio) {
+        cropHeight = height;
+        cropWidth = Math.floor(cropHeight * targetRatio);
+    } else {
+        cropWidth = width;
+        cropHeight = Math.floor(cropWidth / targetRatio);
+    }
+    
+    // 寻找重要性最高的区域
+    let maxImportance = 0;
+    let bestX = 0, bestY = 0;
+    
+    for (let y = 0; y <= height - cropHeight; y += 10) {
+        for (let x = 0; x <= width - cropWidth; x += 10) {
+            let totalImportance = 0;
+            
+            for (let dy = 0; dy < cropHeight; dy += 5) {
+                for (let dx = 0; dx < cropWidth; dx += 5) {
+                    totalImportance += importance[(y + dy) * width + (x + dx)];
+                }
+            }
+            
+            if (totalImportance > maxImportance) {
+                maxImportance = totalImportance;
+                bestX = x;
+                bestY = y;
+            }
+        }
+    }
+    
+    return {
+        x: bestX,
+        y: bestY,
+        width: cropWidth,
+        height: cropHeight
+    };
+}
+
+function applySmartCrop(cropArea) {
+    // 创建裁剪后的图片
+    const tempCanvas = document.createElement('canvas');
+    const tempCtx = tempCanvas.getContext('2d');
+    
+    tempCanvas.width = cropArea.width;
+    tempCanvas.height = cropArea.height;
+    
+    tempCtx.drawImage(
+        originalImage,
+        cropArea.x, cropArea.y, cropArea.width, cropArea.height,
+        0, 0, cropArea.width, cropArea.height
+    );
+    
+    // 更新处理后的图片
+    const croppedImage = new Image();
+    croppedImage.onload = function() {
+        processedImage = croppedImage;
+        addToHistory(croppedImage.src);
+        updateCanvas();
+        updateImageInfo();
+        showMessage('智能裁剪完成！', 'success');
+    };
+    croppedImage.src = tempCanvas.toDataURL();
+}
+
+// 历史记录管理
+function addToHistory(imageSrc) {
+    // 如果当前不在历史记录末尾，删除后面的记录
+    if (historyIndex < imageHistory.length - 1) {
+        imageHistory = imageHistory.slice(0, historyIndex + 1);
+    }
+    
+    // 添加新的记录
+    imageHistory.push(imageSrc);
+    historyIndex = imageHistory.length - 1;
+    
+    // 限制历史记录数量
+    if (imageHistory.length > 10) {
+        imageHistory.shift();
+        historyIndex--;
+    }
+}
+
+function undoImage() {
+    if (historyIndex > 0) {
+        historyIndex--;
+        const img = new Image();
+        img.onload = function() {
+            processedImage = img;
+            updateCanvas();
+            updateImageInfo();
+            showMessage('已撤销', 'success');
+        };
+        img.src = imageHistory[historyIndex];
+    }
+}
+
+function redoImage() {
+    if (historyIndex < imageHistory.length - 1) {
+        historyIndex++;
+        const img = new Image();
+        img.onload = function() {
+            processedImage = img;
+            updateCanvas();
+            updateImageInfo();
+            showMessage('已重做', 'success');
+        };
+        img.src = imageHistory[historyIndex];
+    }
 }
 
 // 质量和格式
@@ -410,6 +807,7 @@ function processImage() {
     const processedImg = new Image();
     processedImg.onload = function() {
         processedImage = processedImg;
+        addToHistory(processedImg.src);
         updateCanvas();
         updateImageInfo();
         hideLoading();
@@ -668,6 +1066,14 @@ document.addEventListener('keydown', function(e) {
                 if (originalImage) {
                     resetImage();
                     showMessage('图片已重置', 'success');
+                }
+                break;
+            case 'z':
+                e.preventDefault();
+                if (e.shiftKey) {
+                    redoImage();
+                } else {
+                    undoImage();
                 }
                 break;
         }

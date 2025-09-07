@@ -194,9 +194,18 @@
                                     <button class="crop-btn" data-ratio="1:1">1:1</button>
                                     <button class="crop-btn" data-ratio="16:9">16:9</button>
                                     <button class="crop-btn" data-ratio="4:3">4:3</button>
+                                    <button class="crop-btn" data-ratio="3:2">3:2</button>
+                                    <button class="crop-btn" data-ratio="2:3">2:3</button>
+                                    <button class="crop-btn" data-ratio="9:16">9:16</button>
                                     <button class="crop-btn" data-ratio="free">自由</button>
                                 </div>
-                                <button class="action-btn" id="cropBtn">开始裁剪</button>
+                                <div class="crop-info" id="cropInfo" style="display: none;">
+                                    <small>尺寸: <span id="cropSize">-</span></small>
+                                </div>
+                                <div class="crop-actions">
+                                    <button class="action-btn" id="cropBtn">开始裁剪</button>
+                                    <button class="action-btn secondary" id="smartCropBtn" style="display: none;">智能裁剪</button>
+                                </div>
                             </div>
                         </div>
 
@@ -246,6 +255,27 @@
                                 <i class="fas fa-undo"></i> 重置
                             </button>
                         </div>
+                        
+                        <div class="history-buttons">
+                            <button class="action-btn secondary" id="undoBtn" onclick="undoImage()">
+                                <i class="fas fa-undo"></i> 撤销
+                            </button>
+                            <button class="action-btn secondary" id="redoBtn" onclick="redoImage()">
+                                <i class="fas fa-redo"></i> 重做
+                            </button>
+                        </div>
+                        
+                        <div class="shortcuts-info">
+                            <h5><i class="fas fa-keyboard"></i> 快捷键</h5>
+                            <div class="shortcuts-list">
+                                <span><kbd>Ctrl</kbd> + <kbd>O</kbd> 打开图片</span>
+                                <span><kbd>Ctrl</kbd> + <kbd>S</kbd> 保存图片</span>
+                                <span><kbd>Ctrl</kbd> + <kbd>R</kbd> 重置</span>
+                                <span><kbd>Ctrl</kbd> + <kbd>Z</kbd> 撤销</span>
+                                <span><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd> 重做</span>
+                                <span><kbd>ESC</kbd> 退出裁剪</span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="preview-area">
@@ -289,11 +319,21 @@
                         <h3>图片压缩</h3>
                         <p>减小文件大小，保持图片质量，优化网络传输</p>
                     </div>
-                    <div class="feature-card">
-                        <i class="fas fa-exchange-alt"></i>
-                        <h3>格式转换</h3>
-                        <p>支持JPEG、PNG、WebP等多种格式互转</p>
-                    </div>
+                        <div class="feature-card">
+                            <i class="fas fa-exchange-alt"></i>
+                            <h3>格式转换</h3>
+                            <p>支持JPEG、PNG、WebP等多种格式互转</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-magic"></i>
+                            <h3>智能裁剪</h3>
+                            <p>AI智能识别图片重要区域，自动选择最佳裁剪位置</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-eye"></i>
+                            <h3>实时预览</h3>
+                            <p>裁剪过程中实时显示预览效果，所见即所得</p>
+                        </div>
                 </div>
             </section>
 

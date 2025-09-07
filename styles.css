@@ -248,8 +248,8 @@ body {
 
 .crop-presets {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
 }
 
 .format-options {
@@ -284,6 +284,16 @@ body {
     flex-direction: column;
     gap: 10px;
     margin-top: 30px;
+}
+
+.history-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.history-buttons .action-btn {
+    flex: 1;
 }
 
 .action-btn {
@@ -398,6 +408,9 @@ body {
     border: 2px solid #667eea;
     background: rgba(255, 255, 255, 0.1);
     cursor: move;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .crop-handle {
@@ -432,6 +445,82 @@ body {
     bottom: -6px;
     right: -6px;
     cursor: se-resize;
+}
+
+/* 裁剪信息样式 */
+.crop-info {
+    background: rgba(102, 126, 234, 0.1);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.crop-info small {
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.crop-info span {
+    color: #667eea;
+    font-weight: 600;
+}
+
+/* 裁剪操作按钮样式 */
+.crop-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.crop-actions .action-btn {
+    flex: 1;
+}
+
+/* 快捷键提示样式 */
+.shortcuts-info {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f7fafc;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+
+.shortcuts-info h5 {
+    color: #4a5568;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.shortcuts-info h5 i {
+    color: #667eea;
+    margin-right: 5px;
+}
+
+.shortcuts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.shortcuts-list span {
+    font-size: 0.8rem;
+    color: #718096;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.shortcuts-list kbd {
+    background: #e2e8f0;
+    border: 1px solid #cbd5e0;
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: 0.7rem;
+    font-family: monospace;
+    color: #4a5568;
 }
 
 /* 功能介绍样式 */
