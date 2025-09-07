@@ -19,3 +19,4 @@ Sitemap: https://yinhangka.online/picturesize/sitemap.xml
 
 # 爬取延迟（可选）
 Crawl-delay: 1
+
