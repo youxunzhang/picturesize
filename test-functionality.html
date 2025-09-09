@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImageResizer Pro - Functionality Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .test-image {
+            max-width: 200px;
+            max-height: 200px;
+            border: 2px solid #ddd;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🖼️ ImageResizer Pro - 功能测试</h1>
+    
+    <div class="test-container">
+        <h2>📋 测试结果</h2>
+        <div id="test-results"></div>
+    </div>
+
+    <div class="test-container">
+        <h2>🧪 功能测试</h2>
+        <button class="test-button" onclick="testJavaScriptFunctions()">测试JavaScript函数</button>
+        <button class="test-button" onclick="testDOMElements()">测试DOM元素</button>
+        <button class="test-button" onclick="testImageUpload()">测试图片上传</button>
+        <button class="test-button" onclick="testImageResize()">测试图片调整</button>
+        <button class="test-button" onclick="runAllTests()">运行所有测试</button>
+    </div>
+
+    <div class="test-container">
+        <h2>📸 测试图片</h2>
+        <p>使用下面的测试图片来验证功能：</p>
+        <canvas id="testCanvas" width="200" height="150" style="border: 2px solid #ddd; margin: 10px;"></canvas>
+        <br>
+        <button class="test-button" onclick="generateTestImage()">生成测试图片</button>
+        <button class="test-button" onclick="downloadTestImage()">下载测试图片</button>
+    </div>
+
+    <div class="test-container">
+        <h2>🔗 链接到主应用</h2>
+        <p><a href="index.html" target="_blank" style="color: #007bff; text-decoration: none; font-weight: bold;">→ 打开 ImageResizer Pro 主应用</a></p>
+    </div>
+
+    <script>
+        let testResults = [];
+        let testImageBlob = null;
+
+        function addTestResult(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            testResults.push({ message, type, timestamp });
+            updateTestResults();
+        }
+
+        function updateTestResults() {
+            const container = document.getElementById('test-results');
+            container.innerHTML = '';
+            
+            testResults.forEach(result => {
+                const div = document.createElement('div');
+                div.className = `test-result ${result.type}`;
+                div.innerHTML = `<strong>[${result.timestamp}]</strong> ${result.message}`;
+                container.appendChild(div);
+            });
+        }
+
+        function testJavaScriptFunctions() {
+            addTestResult('开始测试JavaScript函数...', 'info');
+            
+            // 测试全局函数
+            const functions = ['scrollToResizer', 'scrollToFeatures'];
+            let passed = 0;
+            
+            functions.forEach(funcName => {
+                if (typeof window[funcName] === 'function') {
+                    addTestResult(`✅ ${funcName} 函数存在`, 'success');
+                    passed++;
+                } else {
+                    addTestResult(`❌ ${funcName} 函数不存在`, 'error');
+                }
+            });
+            
+            addTestResult(`JavaScript函数测试完成: ${passed}/${functions.length} 通过`, passed === functions.length ? 'success' : 'warning');
+        }
+
+        function testDOMElements() {
+            addTestResult('开始测试DOM元素...', 'info');
+            
+            // 测试关键DOM元素
+            const elements = [
+                'uploadArea', 'imageInput', 'resizerControls', 'imagePreview',
+                'widthInput', 'heightInput', 'aspectRatio', 'qualitySlider',
+                'qualityValue', 'formatSelect', 'resizeBtn', 'downloadBtn', 'resetBtn'
+            ];
+            
+            let found = 0;
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    addTestResult(`✅ 元素 #${id} 存在`, 'success');
+                    found++;
+                } else {
+                    addTestResult(`❌ 元素 #${id} 不存在`, 'error');
+                }
+            });
+            
+            addTestResult(`DOM元素测试完成: ${found}/${elements.length} 找到`, found === elements.length ? 'success' : 'warning');
+        }
+
+        function testImageUpload() {
+            addTestResult('开始测试图片上传功能...', 'info');
+            
+            // 检查文件输入元素
+            const fileInput = document.getElementById('imageInput');
+            if (!fileInput) {
+                addTestResult('❌ 文件输入元素不存在', 'error');
+                return;
+            }
+            
+            // 检查上传区域
+            const uploadArea = document.getElementById('uploadArea');
+            if (!uploadArea) {
+                addTestResult('❌ 上传区域不存在', 'error');
+                return;
+            }
+            
+            addTestResult('✅ 图片上传元素检查通过', 'success');
+            addTestResult('💡 提示: 请手动测试拖拽和点击上传功能', 'info');
+        }
+
+        function testImageResize() {
+            addTestResult('开始测试图片调整功能...', 'info');
+            
+            // 检查调整控件
+            const controls = ['widthInput', 'heightInput', 'qualitySlider', 'formatSelect'];
+            let found = 0;
+            
+            controls.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    addTestResult(`✅ 控件 #${id} 存在`, 'success');
+                    found++;
+                } else {
+                    addTestResult(`❌ 控件 #${id} 不存在`, 'error');
+                }
+            });
+            
+            // 检查按钮
+            const buttons = ['resizeBtn', 'downloadBtn', 'resetBtn'];
+            buttons.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    addTestResult(`✅ 按钮 #${id} 存在`, 'success');
+                    found++;
+                } else {
+                    addTestResult(`❌ 按钮 #${id} 不存在`, 'error');
+                }
+            });
+            
+            addTestResult(`图片调整功能测试完成: ${found}/${controls.length + buttons.length} 通过`, found === controls.length + buttons.length ? 'success' : 'warning');
+        }
+
+        function generateTestImage() {
+            addTestResult('生成测试图片...', 'info');
+            
+            const canvas = document.getElementById('testCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // 清空画布
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // 绘制渐变背景
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#ff6b6b');
+            gradient.addColorStop(0.5, '#4ecdc4');
+            gradient.addColorStop(1, '#45b7d1');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // 添加文字
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 20px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('TEST IMAGE', canvas.width/2, canvas.height/2 - 10);
+            ctx.fillText('200x150px', canvas.width/2, canvas.height/2 + 20);
+            
+            // 添加装饰
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(10, 10, canvas.width-20, canvas.height-20);
+            
+            // 转换为blob
+            canvas.toBlob(blob => {
+                testImageBlob = blob;
+                addTestResult('✅ 测试图片生成成功', 'success');
+            }, 'image/png');
+        }
+
+        function downloadTestImage() {
+            if (!testImageBlob) {
+                addTestResult('❌ 请先生成测试图片', 'error');
+                return;
+            }
+            
+            const url = URL.createObjectURL(testImageBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'test-image.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            addTestResult('✅ 测试图片下载成功', 'success');
+        }
+
+        function runAllTests() {
+            addTestResult('🚀 开始运行所有测试...', 'info');
+            testResults = []; // 清空之前的结果
+            
+            setTimeout(() => testJavaScriptFunctions(), 100);
+            setTimeout(() => testDOMElements(), 200);
+            setTimeout(() => testImageUpload(), 300);
+            setTimeout(() => testImageResize(), 400);
+            setTimeout(() => {
+                addTestResult('🎉 所有测试完成！', 'success');
+                addTestResult('💡 现在可以打开主应用进行实际测试', 'info');
+            }, 500);
+        }
+
+        // 页面加载时自动生成测试图片
+        window.addEventListener('load', function() {
+            addTestResult('📱 测试页面加载完成', 'info');
+            generateTestImage();
+        });
+    </script>
+</body>
+</html>

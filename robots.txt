@@ -1,22 +1,39 @@
 User-agent: *
 Allow: /
 
-# 允许所有搜索引擎爬取所有内容
-Allow: /index.html
-Allow: /styles.css
-Allow: /script.js
-Allow: /images/
-Allow: /assets/
+# Sitemap location
+Sitemap: https://topicture.online/sitemap.xml
 
-# 禁止爬取敏感文件
-Disallow: /admin/
-Disallow: /private/
-Disallow: /*.log$
-Disallow: /*.tmp$
-
-# 网站地图位置
-Sitemap: https://yinhangka.online/picturesize/sitemap.xml
-
-# 爬取延迟（可选）
+# Crawl delay
 Crawl-delay: 1
 
+# Disallow admin and private directories
+Disallow: /admin/
+Disallow: /private/
+Disallow: /temp/
+Disallow: /test/
+
+# Allow important files
+Allow: /styles.css
+Allow: /script.js
+Allow: /quick-test.js
+Allow: /index.html
+Allow: /about.html
+Allow: /features.html
+Allow: /contact.html
+Allow: /faq.html
+Allow: /privacy.html
+Allow: /terms.html
+
+# Allow image files
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.png
+Allow: /*.gif
+Allow: /*.webp
+Allow: /*.svg
+Allow: /*.ico
+
+# Allow CSS and JS files
+Allow: /*.css
+Allow: /*.js

@@ -1,120 +1,210 @@
-# 图片处理工具
+# ImageResizer Pro
 
-一个功能强大的在线图片处理工具，支持调整大小、裁剪、压缩和格式转换。所有处理都在浏览器本地完成，保护您的隐私。
+A modern, professional image resizing tool built with vanilla HTML, CSS, and JavaScript. Features a sleek Western-style design with authentic English content and comprehensive functionality for image size adjustment.
 
-## 功能特点
+## 🌟 Features
 
-### 🖼️ 调整大小
-- 自定义宽度和高度
-- 保持宽高比选项
-- 预设常用尺寸 (1920x1080, 1280x720, 800x600)
-- 实时预览效果
+### Core Functionality
+- **Drag & Drop Upload**: Easy image upload with drag and drop support
+- **Real-time Preview**: See your image changes instantly
+- **Multiple Formats**: Support for JPEG, PNG, GIF, and WebP
+- **Quality Control**: Adjustable compression quality (10-100%)
+- **Aspect Ratio Lock**: Maintain proportions while resizing
+- **Format Conversion**: Convert between different image formats
+- **Local Processing**: All processing happens in your browser for privacy
 
-### ✂️ 智能裁剪
-- 多种裁剪比例 (1:1, 16:9, 4:3, 自由)
-- 可拖拽的裁剪框
-- 精确的裁剪控制
-- 实时预览裁剪结果
+### User Experience
+- **Responsive Design**: Works perfectly on desktop, tablet, and mobile
+- **Modern UI**: Clean, professional interface with smooth animations
+- **Keyboard Shortcuts**: 
+  - `Ctrl/Cmd + R`: Reset resizer
+  - `Ctrl/Cmd + S`: Download resized image
+  - `Escape`: Close mobile menu
+- **Error Handling**: Comprehensive validation and user feedback
+- **Loading States**: Visual feedback during processing
 
-### 🗜️ 图片压缩
-- 可调节压缩质量 (1-100)
-- 实时显示文件大小对比
-- 保持图片质量的同时减小文件大小
-- 支持批量处理
+### Technical Features
+- **Privacy First**: No server uploads - everything processed locally
+- **Performance Optimized**: Fast processing with efficient algorithms
+- **Cross-browser Compatible**: Works on all modern browsers
+- **Progressive Web App**: Can be installed on devices
+- **Accessibility**: Keyboard navigation and screen reader friendly
 
-### 🔄 格式转换
-- 支持 JPEG、PNG、WebP 格式
-- 无损格式转换
-- 优化网络传输
-- 兼容性强
+## 🚀 Getting Started
 
-## 使用方法
+### Prerequisites
+- Modern web browser (Chrome, Firefox, Safari, Edge)
+- No additional software or dependencies required
 
-### 1. 上传图片
-- **拖拽上传**: 直接将图片拖拽到上传区域
-- **点击上传**: 点击"选择图片"按钮选择文件
-- **支持格式**: JPG、PNG、GIF、WebP
+### Installation
+1. Clone or download the project files
+2. Open `index.html` in your web browser
+3. Start resizing images immediately!
 
-### 2. 调整图片
-- **调整大小**: 在左侧工具栏输入新的宽度和高度
-- **裁剪图片**: 选择裁剪比例后点击"开始裁剪"
-- **压缩图片**: 调整质量滑块来控制压缩程度
-- **转换格式**: 选择目标格式（JPEG/PNG/WebP）
-
-### 3. 预览和下载
-- **实时预览**: 右侧预览区域显示处理后的效果
-- **应用修改**: 点击"应用修改"按钮处理图片
-- **下载图片**: 点击"下载图片"按钮保存处理后的图片
-- **重置图片**: 点击"重置"按钮恢复原始图片
-
-## 快捷键
-
-- `Ctrl/Cmd + O`: 打开文件选择器
-- `Ctrl/Cmd + S`: 下载处理后的图片
-- `Ctrl/Cmd + R`: 重置图片
-
-## 技术特点
-
-- **纯前端实现**: 使用 HTML5 Canvas API 进行图片处理
-- **隐私保护**: 所有处理都在浏览器本地完成，不上传到服务器
-- **响应式设计**: 支持桌面和移动设备
-- **现代UI**: 使用现代化的设计语言和动画效果
-- **高性能**: 优化的图片处理算法，快速响应
-
-## 浏览器支持
-
-- Chrome 60+
-- Firefox 55+
-- Safari 12+
-- Edge 79+
-
-## 文件结构
-
+### File Structure
 ```
-IMGSIZE/
-├── index.html          # 主页面
-├── styles.css          # 样式文件
-├── script.js           # JavaScript 功能
-├── README.md          # 说明文档
-└── 需求.txt           # 需求文档
+picturesize/
+├── index.html          # Main homepage with resizer tool
+├── about.html          # About page with company information
+├── features.html       # Detailed features and comparison
+├── contact.html        # Contact form and FAQ
+├── styles.css          # Complete styling and responsive design
+├── script.js           # All JavaScript functionality
+└── README.md           # This file
 ```
 
-## 开发说明
+## 📱 Usage
 
-### 本地运行
-1. 克隆或下载项目文件
-2. 使用现代浏览器打开 `index.html`
-3. 开始使用图片处理功能
+### Basic Image Resizing
+1. **Upload Image**: Drag and drop an image or click to browse
+2. **Set Dimensions**: Enter desired width and height
+3. **Adjust Settings**: 
+   - Toggle aspect ratio lock
+   - Adjust quality slider
+   - Select output format
+4. **Resize**: Click "Resize Image" button
+5. **Download**: Click "Download" to save your resized image
 
-### 部署
-由于是纯前端项目，可以直接部署到任何静态文件服务器：
-- GitHub Pages
-- Netlify
-- Vercel
-- 任何支持静态文件的服务器
+### Advanced Features
+- **Batch Processing**: Process multiple images (planned feature)
+- **Format Conversion**: Convert between JPEG, PNG, WebP
+- **Quality Optimization**: Fine-tune compression for best results
+- **Dimension Constraints**: Automatic validation (1-10,000 pixels)
 
-## 更新日志
+## 🎨 Design Philosophy
 
-### v1.0.0
-- 初始版本发布
-- 支持图片调整大小
-- 支持图片裁剪
-- 支持图片压缩
-- 支持格式转换
-- 响应式设计
-- 拖拽上传功能
+### Western-Style Aesthetics
+- **Clean Typography**: Inter font family for modern readability
+- **Professional Color Scheme**: Purple/indigo primary with green accents
+- **Minimalist Layout**: Focus on functionality without clutter
+- **Smooth Animations**: Subtle transitions and hover effects
+- **Card-based Design**: Organized content in clean containers
 
-## 许可证
+### User Experience Principles
+- **Intuitive Navigation**: Clear menu structure across all pages
+- **Progressive Disclosure**: Show controls only when needed
+- **Immediate Feedback**: Real-time preview and status updates
+- **Error Prevention**: Validation and helpful error messages
+- **Accessibility**: Keyboard navigation and semantic HTML
 
-MIT License - 可自由使用、修改和分发
+## 🔧 Technical Details
 
-## 联系我们
+### Browser Compatibility
+- Chrome 80+
+- Firefox 75+
+- Safari 13+
+- Edge 80+
 
-如果您有任何问题或建议，请通过以下方式联系我们：
-- 提交 Issue
-- 发送邮件
-- 在线反馈
+### Performance
+- **File Size Limit**: 10MB maximum
+- **Processing Speed**: Typically under 2 seconds
+- **Memory Usage**: Optimized for large images
+- **Mobile Performance**: Touch-optimized interface
+
+### Security & Privacy
+- **Local Processing**: No data leaves your device
+- **No Tracking**: No analytics or user tracking
+- **No Cookies**: No persistent data storage
+- **Open Source**: Transparent, auditable code
+
+## 📄 Pages Overview
+
+### Homepage (`index.html`)
+- Hero section with call-to-action
+- Interactive image resizer tool
+- Feature highlights
+- Professional footer
+
+### About (`about.html`)
+- Company mission and values
+- Team member profiles
+- Statistics and achievements
+- Core principles
+
+### Features (`features.html`)
+- Detailed feature breakdown
+- Comparison table with competitors
+- Technical specifications
+- Use case examples
+
+### Contact (`contact.html`)
+- Contact form with validation
+- Multiple contact methods
+- FAQ section with accordion
+- Support information
+
+## 🛠️ Customization
+
+### Styling
+The CSS uses CSS custom properties (variables) for easy theming:
+```css
+:root {
+    --primary-color: #6366f1;
+    --accent-color: #10b981;
+    --text-primary: #1e293b;
+    /* ... more variables */
+}
+```
+
+### Functionality
+The JavaScript is modular and well-commented for easy modification:
+- Image processing functions
+- UI interaction handlers
+- Form validation
+- Navigation management
+
+## 📈 Future Enhancements
+
+### Planned Features
+- **Batch Processing**: Resize multiple images at once
+- **Advanced Filters**: Apply effects during resize
+- **Cloud Storage**: Optional cloud backup
+- **API Integration**: Backend service for heavy processing
+- **Plugin System**: Extensible architecture
+
+### Performance Improvements
+- **Web Workers**: Background processing
+- **Image Optimization**: Advanced compression algorithms
+- **Caching**: Local storage for recent images
+- **Progressive Loading**: Faster initial page load
+
+## 🤝 Contributing
+
+This is a demonstration project showcasing modern web development practices. Feel free to:
+- Report bugs or issues
+- Suggest new features
+- Improve documentation
+- Enhance accessibility
+
+## 📜 License
+
+This project is open source and available under the MIT License.
+
+## 🎯 Target Audience
+
+- **Web Developers**: Need quick image optimization
+- **Designers**: Require precise image resizing
+- **Content Creators**: Social media image preparation
+- **Photographers**: Batch image processing
+- **General Users**: Simple, reliable image tools
+
+## 🌐 Browser Support
+
+| Browser | Version | Support |
+|---------|---------|---------|
+| Chrome | 80+ | ✅ Full |
+| Firefox | 75+ | ✅ Full |
+| Safari | 13+ | ✅ Full |
+| Edge | 80+ | ✅ Full |
+| IE | 11 | ⚠️ Limited |
+
+## 📞 Support
+
+For questions or support:
+- **Email**: support@imageresizerpro.com
+- **Live Chat**: Available on the contact page
+- **FAQ**: Comprehensive answers in the contact section
 
 ---
 
-**隐私声明**: 本工具所有图片处理操作都在您的浏览器本地完成，不会上传到任何服务器，完全保护您的隐私安全。 
+**ImageResizer Pro** - Professional image resizing made simple. Transform your images with precision and ease.
