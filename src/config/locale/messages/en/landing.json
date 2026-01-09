@@ -1,0 +1,397 @@
+{
+  "header": {
+    "id": "header",
+    "brand": {
+      "title": "Nano Banana Pro",
+      "logo": {
+        "src": "/logo.png",
+        "alt": "Nano Banana Pro"
+      },
+      "url": "/"
+    },
+    "nav": {
+      "items": [
+        {
+          "title": "Create",
+          "url": "/create",
+          "icon": "Zap"
+        },
+        {
+          "title": "Pricing",
+          "url": "/pricing",
+          "icon": "DollarSign"
+        },
+                {
+          "title": "Showcases",
+          "url": "/showcases",
+          "icon": "Box"
+        },
+        {
+          "title": "Generators",
+          "icon": "Sparkles",
+          "children": [
+            {
+              "title": "Hairstyles",
+              "url": "/hairstyles",
+              "icon": "Wind",
+              "description": "AI Hairstyle Generator"
+            }
+          ]
+        }
+      ]
+    },
+    "buttons": [],
+    "user_nav": {
+      "show_name": true,
+      "show_credits": true,
+      "show_sign_out": true,
+      "items": [
+        {
+          "title": "Billing",
+          "url": "/settings/billing",
+          "icon": "CreditCard"
+        },
+        {
+          "title": "Activity",
+          "url": "/activity",
+          "icon": "Activity"
+        }
+      ]
+    },
+    "show_sign": true,
+    "show_theme": true,
+    "show_locale": false
+  },
+  "hero": {
+    "id": "hero",
+    "title": "Nano Banana Pro",
+    "description": "The second generation of Nano Banana, the flagship AI image editing model. Provide the best-in-class image editing experience.",
+    "buttons": [
+      {
+        "title": "Try it now",
+        "icon": "Zap",
+        "url": "/create",
+        "target": "_self",
+        "variant": "default"
+      },
+      {
+        "title": "View examples",
+        "icon": "BookOpenText",
+        "url": "/#showcases",
+        "target": "_blank",
+        "variant": "outline"
+      }
+    ],
+    "show_avatars": false,
+    "avatars_tip": "999+ users are using Nano Banana Pro",
+    "show_award": false,
+    "background_image": {
+      "src": "/imgs/bg/girl.jpeg",
+      "alt": "hero"
+    }
+  },
+  "showcases-flow": {
+    "id": "showcases-flow",
+    "title": "Nano Banana Pro Showcases",
+    "description": "Representative Nano Banana editing and generation cases powered by Nano Banana Pro",
+    "items": [
+      {
+        "title": "AI SaaS Showcase 1",
+        "description": "AI SaaS Showcase",
+        "image": {
+          "src": "/imgs/showcases/1.jpeg",
+          "alt": "AI SaaS Showcase 1"
+        }
+      },
+      {
+        "title": "AI SaaS Showcase 2",
+        "description": "AI SaaS Showcase",
+        "image": {
+          "src": "/imgs/showcases/2.jpeg",
+          "alt": "AI SaaS Showcase 2"
+        }
+      },
+      {
+        "title": "AI SaaS Showcase 3",
+        "description": "AI SaaS Showcase",
+        "image": {
+          "src": "/imgs/showcases/3.jpeg",
+          "alt": "AI SaaS Showcase 3"
+        }
+      },
+      {
+        "title": "AI SaaS Showcase 4",
+        "description": "AI SaaS Showcase",
+        "image": {
+          "src": "/imgs/showcases/4.jpeg",
+          "alt": "AI SaaS Showcase 4"
+        }
+      },
+      {
+        "title": "AI SaaS Showcase 5",
+        "description": "AI SaaS Showcase",
+        "image": {
+          "src": "/imgs/showcases/5.jpeg",
+          "alt": "AI SaaS Showcase 5"
+        }
+      },
+      {
+        "title": "AI SaaS Showcase 6",
+        "description": "AI SaaS Showcase",
+        "image": {
+          "src": "/imgs/showcases/6.jpeg",
+          "alt": "AI SaaS Showcase 6"
+        }
+      },
+      {
+        "title": "AI SaaS Showcase 7",
+        "description": "AI SaaS Showcase",
+        "image": {
+          "src": "/imgs/showcases/7.jpeg",
+          "alt": "AI SaaS Showcase 7"
+        }
+      },
+      {
+        "title": "AI SaaS Showcase 8",
+        "description": "AI SaaS Showcase",
+        "image": {
+          "src": "/imgs/showcases/8.jpeg",
+          "alt": "AI SaaS Showcase 8"
+        }
+      },
+      {
+        "title": "AI SaaS Showcase 9",
+        "description": "AI SaaS Showcase",
+        "image": {
+          "src": "/imgs/showcases/9.jpeg",
+          "alt": "AI SaaS Showcase 9"
+        }
+      },
+      {
+        "title": "AI SaaS Showcase 10",
+        "description": "AI SaaS Showcase",
+        "image": {
+          "src": "/imgs/showcases/10.jpeg",
+          "alt": "AI SaaS Showcase 10"
+        }
+      }
+    ]
+  },
+  "logos": {
+    "hidden": true
+  },
+  "introduce": {
+    "hidden": true
+  },
+  "benefits": {
+    "hidden": true
+  },
+  "usage": {
+    "hidden": true
+  },
+  "features": {
+    "id": "features",
+    "title": "Key Features of Nano Banana Pro",
+    "description": "Everything you need to generate and refine visuals with Nano Banana Pro, the leading AI image editing model powered by Nano Banana.",
+    "items": [
+      {
+        "title": "Natural Language Editing",
+        "description": "Edit any photo with conversational prompts. Nano Banana Pro interprets complex directions and applies precise transformations with Nano Banana's advanced AI.",
+        "icon": "RiMagicLine"
+      },
+      {
+        "title": "Character Consistency",
+        "description": "Preserve faces, outfits, and poses across every revision with Nano Banana Pro's identity-aware pipeline. Nano Banana delivers consistent character representation.",
+        "icon": "RiUserStarLine"
+      },
+      {
+        "title": "Scene Preservation",
+        "description": "Blend edits seamlessly into original backgrounds for photorealistic results with Nano Banana Pro. Experience professional-grade scene preservation powered by Nano Banana.",
+        "icon": "RiLandscapeLine"
+      },
+      {
+        "title": "Multi-Image Remix",
+        "description": "Blend elements from multiple reference images to create new scenes, match styles, or preserve continuity across frames.",
+        "icon": "Layers"
+      },
+      {
+        "title": "Aspect Ratio Control",
+        "description": "Choose from presets like 1:1, 16:9, or 4:5 to generate perfectly framed images for social feeds, hero banners, or print layouts.",
+        "icon": "RiAspectRatioLine"
+      },
+      {
+        "title": "Instant Variations",
+        "description": "Request fresh variations in seconds and iterate through lighting, color, and composition ideas without starting over.",
+        "icon": "RiFlashlightLine"
+      }
+    ]
+  },
+  "stats": {
+    "hidden": true
+  },
+  "testimonials": {
+    "hidden": true
+  },
+  "faq": {
+    "id": "faq",
+    "title": "Frequently asked questions about Nano Banana Pro",
+    "items": [
+      {
+        "question": "What exactly is Nano Banana Pro and how does it work?",
+        "answer": "Nano Banana Pro is the professional AI image editing model powered by Nano Banana. It supports natural language text-to-image generation, text + image editing, multi-image composition, iterative refinements, and high-fidelity text rendering, giving you precise control over every revision."
+      },
+      {
+        "question": "How do I edit existing visuals with Nano Banana Pro?",
+        "answer": "Upload a base image, describe the changes you need, and Nano Banana Pro applies additions, removals, and style shifts without masks. You can keep iterating conversationally until the scene matches your vision, and every output ships with a SynthID watermark for provenance."
+      },
+      {
+        "question": "Which projects benefit most from Nano Banana Pro?",
+        "answer": "Use Nano Banana Pro for portrait retouching, product photography, cinematic storytelling, UGC campaigns, and brand-safe typography. Nano Banana's multimodal understanding blends elements from multiple inputs and keeps backgrounds intact even under heavy edits."
+      },
+      {
+        "question": "Can I control output size and aspect ratio?",
+        "answer": "Yes. Specify aspect ratios such as 1:1, 16:9, or 9:16 to match your channel requirements, and the engine renders the corresponding resolution automatically so you can ship pixel-perfect assets without manual cropping."
+      },
+      {
+        "question": "How do I craft effective prompts for Nano Banana Pro?",
+        "answer": "Start with the subject and setting, add mood or lighting cues, then specify the level of detail or camera style you want. You can reference colors, outfits, materials, or even upload guide images to steer composition and keep characters consistent with Nano Banana Pro."
+      },
+      {
+        "question": "Can l use Nano Banana Pro outputs for commercial projects?",
+        "answer": "Yes. Ensure you have rights to any reference assets, double-check brand guidelines, and remember that every Nano Banana Pro output carries a SynthID watermark to help document provenance when you launch campaigns."
+      }
+    ]
+  },
+  "cta": {
+    "id": "cta",
+    "title": "Try Nano Banana Pro now",
+    "description": "Experience the power of Nano Banana Pro with amazing image editing capabilities.",
+    "buttons": [
+      {
+        "title": "Try Nano Banana Pro",
+        "url": "/create",
+        "target": "_self",
+        "icon": "Wand"
+      }
+    ],
+    "className": "bg-muted"
+  },
+  "subscribe": {
+    "hidden": true
+  },
+  "footer": {
+    "id": "footer",
+    "brand": {
+      "title": "Nano Banana Pro",
+      "description": "Nano Banana Pro is the second generation of Nano Banana, it's also the flagship AI image editing model. Provide the best-in-class image editing experience.",
+      "logo": {
+        "src": "/logo.png",
+        "alt": "Nano Banana Pro"
+      },
+      "url": "/"
+    },
+    "nav": {
+      "items": [
+        {
+          "title": "About",
+          "children": [
+            {
+              "title": "Create",
+              "url": "/create",
+              "target":"_self"
+            },
+            {
+              "title": "Features",
+              "url": "/#features",
+              "target": "_self"
+            },
+            {
+              "title": "Showcases",
+              "url": "/#showcases",
+              "target": "_self"
+            },
+            {
+              "title": "FAQ",
+              "url": "/#faq",
+              "target": "_self"
+            },
+            {
+              "title": "Blog",
+              "url": "/blog",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "Prompts",
+          "children": [
+            {
+              "title": "3D Digital Human Comics",
+              "url": "/create?prompt=3d-digital-human-comics",
+              "target": "_self"
+            },
+            {
+              "title": "Vertical fisheye selfie",
+              "url": "/create?prompt=vertical-fisheye-selfie",
+              "target": "_self"
+            },
+            {
+              "title": "GTA VICE CITY",
+              "url": "/create?prompt=gta-vice-city",
+              "target": "_self"
+            },
+            {
+              "title": "Photo restoration",
+              "url": "/create?prompt=photo-restoration",
+              "target": "_self"
+            },
+            {
+              "title": "3D caricature of celebrity",
+              "url": "/create?prompt=3d-caricature-of-celebrity",
+              "target": "_self"
+            },
+            {
+              "title": "3D City Weather",
+              "url": "/create?prompt=3d-city-weather",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "Generators",
+          "children": [
+            {
+              "title": "AI Hairstyle Generator",
+              "url": "/hairstyles",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    "social": {
+      "items": [
+        {
+          "title": "Email",
+          "icon": "Mail",
+          "url": "mailto:support@zknown.ai",
+          "target": "_self"
+        }
+      ]
+    },
+    "agreement": {
+      "items": [
+        {
+          "title": "Privacy Policy",
+          "url": "/privacy-policy"
+        },
+        {
+          "title": "Terms of Service",
+          "url": "/terms-of-service"
+        }
+      ]
+    },
+    "show_theme": true,
+    "show_locale": false
+  }
+}
